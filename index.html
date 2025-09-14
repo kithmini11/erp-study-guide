@@ -1,437 +1,1133 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive ERP Study Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
-    color: #333;
-}
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-.container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 20px;
-}
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
 
-.header {
-    text-align: center;
-    color: white;
-    margin-bottom: 30px;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
 
-.header h1 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-}
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
 
-.nav-tabs {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 30px;
-}
+        .nav-tab {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
 
-.nav-tab {
-    padding: 12px 24px;
-    background: rgba(255, 255, 255, 0.9);
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 14px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
+        .nav-tab:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            background: white;
+        }
 
-.nav-tab:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-    background: white;
-}
+        .nav-tab.active {
+            background: #4CAF50;
+            color: white;
+            transform: translateY(-2px);
+        }
 
-.nav-tab.active {
-    background: #4CAF50;
-    color: white;
-    transform: translateY(-2px);
-}
+        .content-section {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
 
-.content-section {
-    display: none;
-    background: white;
-    border-radius: 15px;
-    padding: 30px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-    backdrop-filter: blur(10px);
-}
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
 
-.content-section.active {
-    display: block;
-    animation: fadeIn 0.5s ease;
-}
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+        .process-flow {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+        }
 
-.process-flow {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    align-items: center;
-    justify-content: center;
-    margin: 20px 0;
-}
+        .process-step {
+            background: linear-gradient(145deg, #f0f8ff, #e1ecf4);
+            padding: 15px 20px;
+            border-radius: 15px;
+            border: 2px solid #3498db;
+            font-weight: 600;
+            text-align: center;
+            min-width: 120px;
+            position: relative;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
 
-.process-step {
-    background: linear-gradient(145deg, #f0f8ff, #e1ecf4);
-    padding: 15px 20px;
-    border-radius: 15px;
-    border: 2px solid #3498db;
-    font-weight: 600;
-    text-align: center;
-    min-width: 120px;
-    position: relative;
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
+        .process-step:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
+            background: linear-gradient(145deg, #3498db, #2980b9);
+            color: white;
+        }
 
-.process-step:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
-    background: linear-gradient(145deg, #3498db, #2980b9);
-    color: white;
-}
+        .process-arrow {
+            font-size: 24px;
+            color: #3498db;
+            font-weight: bold;
+        }
 
-.process-arrow {
-    font-size: 24px;
-    color: #3498db;
-    font-weight: bold;
-}
+        .data-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
 
-.data-types {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    margin: 20px 0;
-}
+        .data-card {
+            background: linear-gradient(145deg, #ff6b6b, #ee5a52);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(238, 90, 82, 0.3);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
 
-.data-card {
-    background: linear-gradient(145deg, #ff6b6b, #ee5a52);
-    color: white;
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(238, 90, 82, 0.3);
-    transition: transform 0.3s ease;
-    cursor: pointer;
-}
+        .data-card:nth-child(2) {
+            background: linear-gradient(145deg, #4ecdc4, #44a08d);
+        }
 
-.data-card:nth-child(2) {
-    background: linear-gradient(145deg, #4ecdc4, #44a08d);
-}
+        .data-card:nth-child(3) {
+            background: linear-gradient(145deg, #feca57, #ff9ff3);
+        }
 
-.data-card:nth-child(3) {
-    background: linear-gradient(145deg, #feca57, #ff9ff3);
-}
+        .data-card:hover {
+            transform: translateY(-10px) rotate(2deg);
+        }
 
-.data-card:hover {
-    transform: translateY(-10px) rotate(2deg);
-}
+        .data-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
 
-.data-card h3 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-}
+        .data-card ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
 
-.data-card ul {
-    margin: 10px 0;
-    padding-left: 20px;
-}
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
 
-.modules-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    margin: 20px 0;
-}
+        .module-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #3498db;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
 
-.module-card {
-    background: white;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    border-left: 5px solid #3498db;
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
+        .module-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border-left-color: #e74c3c;
+        }
 
-.module-card:hover {
-    transform: translateX(10px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-    border-left-color: #e74c3c;
-}
+        .module-card h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
 
-.module-card h3 {
-    color: #2c3e50;
-    margin-bottom: 10px;
-    font-size: 1.3rem;
-}
+        .implementation-timeline {
+            position: relative;
+            padding: 20px 0;
+        }
 
-.implementation-timeline {
-    position: relative;
-    padding: 20px 0;
-}
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            padding: 15px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 10px;
+            position: relative;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
 
-.timeline-item {
-    display: flex;
-    align-items: center;
-    margin: 15px 0;
-    padding: 15px;
-    background: linear-gradient(90deg, #667eea, #764ba2);
-    color: white;
-    border-radius: 10px;
-    position: relative;
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
+        .timeline-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
 
-.timeline-item:hover {
-    transform: scale(1.02);
-    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
-}
+        .timeline-number {
+            background: white;
+            color: #333;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
 
-.timeline-number {
-    background: white;
-    color: #333;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    margin-right: 15px;
-    flex-shrink: 0;
-}
+        .crm-pipeline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 15px;
+        }
 
-.crm-pipeline {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
-    margin: 20px 0;
-    padding: 20px;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    border-radius: 15px;
-}
+        .pipeline-stage {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            flex: 1;
+            min-width: 150px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
 
-.pipeline-stage {
-    background: white;
-    padding: 20px;
-    border-radius: 15px;
-    text-align: center;
-    flex: 1;
-    min-width: 150px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    position: relative;
-}
+        .pipeline-stage:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
 
-.pipeline-stage:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-}
+        .pipeline-stage::after {
+            content: '→';
+            position: absolute;
+            right: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            color: white;
+            font-weight: bold;
+        }
 
-.pipeline-stage::after {
-    content: '→';
-    position: absolute;
-    right: -15px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 24px;
-    color: white;
-    font-weight: bold;
-}
+        .pipeline-stage:last-child::after {
+            display: none;
+        }
 
-.pipeline-stage:last-child::after {
-    display: none;
-}
+        .memory-aids {
+            background: linear-gradient(145deg, #ffecd2, #fcb69f);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
 
-.memory-aids {
-    background: linear-gradient(145deg, #ffecd2, #fcb69f);
-    padding: 25px;
-    border-radius: 15px;
-    margin: 20px 0;
-}
+        .memory-aid {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            border-left: 4px solid #e74c3c;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
 
-.memory-aid {
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
-    margin: 10px 0;
-    border-left: 4px solid #e74c3c;
-    transition: transform 0.3s ease;
-    cursor: pointer;
-}
+        .memory-aid:hover {
+            transform: translateX(5px);
+        }
 
-.memory-aid:hover {
-    transform: translateX(5px);
-}
+        .stats-dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
 
-.stats-dashboard {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    margin: 20px 0;
-}
+        .stat-card {
+            background: linear-gradient(145deg, #a8edea, #fed6e3);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
 
-.stat-card {
-    background: linear-gradient(145deg, #a8edea, #fed6e3);
-    padding: 25px;
-    border-radius: 15px;
-    text-align: center;
-    transition: transform 0.3s ease;
-    cursor: pointer;
-}
+        .stat-card:hover {
+            transform: scale(1.05) rotate(1deg);
+        }
 
-.stat-card:hover {
-    transform: scale(1.05) rotate(1deg);
-}
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
 
-.stat-number {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #2c3e50;
-    margin-bottom: 10px;
-}
+        .integration-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin: 30px 0;
+            position: relative;
+        }
 
-.integration-diagram {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 30px;
-    margin: 30px 0;
-    position: relative;
-}
+        .integration-node {
+            background: linear-gradient(145deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
 
-.integration-node {
-    background: linear-gradient(145deg, #667eea, #764ba2);
-    color: white;
-    padding: 20px;
-    border-radius: 50%;
-    width: 100px;
-    height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 14px;
-    text-align: center;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    position: relative;
-}
+        .integration-node:hover {
+            transform: scale(1.2);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
 
-.integration-node:hover {
-    transform: scale(1.2);
-    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-}
+        .quiz-section {
+            background: linear-gradient(145deg, #ff9a9e, #fecfef);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
 
-.quiz-section {
-    background: linear-gradient(145deg, #ff9a9e, #fecfef);
-    padding: 25px;
-    border-radius: 15px;
-    margin: 20px 0;
-}
+        .quiz-question {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
 
-.quiz-question {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    margin: 15px 0;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
+        .quiz-options {
+            margin: 15px 0;
+        }
 
-.quiz-options {
-    margin: 15px 0;
-}
+        .quiz-option {
+            display: block;
+            padding: 10px 15px;
+            margin: 5px 0;
+            background: #f8f9fa;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
 
-.quiz-option {
-    display: block;
-    padding: 10px 15px;
-    margin: 5px 0;
-    background: #f8f9fa;
-    border: 2px solid transparent;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
+        .quiz-option:hover {
+            background: #e9ecef;
+            border-color: #007bff;
+        }
 
-.quiz-option:hover {
-    background: #e9ecef;
-    border-color: #007bff;
-}
+        .quiz-option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
 
-.quiz-option.correct {
-    background: #d4edda;
-    border-color: #28a745;
-}
+        .quiz-option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
 
-.quiz-option.incorrect {
-    background: #f8d7da;
-    border-color: #dc3545;
-}
+        .quiz-button {
+            padding: 15px 30px;
+            background: linear-gradient(145deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
 
-.quiz-button {
-    padding: 15px 30px;
-    background: linear-gradient(145deg, #667eea, #764ba2);
-    color: white;
-    border: none;
-    border-radius: 25px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    margin: 20px 0;
-    transition: all 0.3s ease;
-}
+        .quiz-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
 
-.quiz-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
-}
+        @media (max-width: 768px) {
+            .process-flow {
+                flex-direction: column;
+            }
+            
+            .process-arrow {
+                transform: rotate(90deg);
+            }
+            
+            .crm-pipeline {
+                flex-direction: column;
+            }
+            
+            .pipeline-stage::after {
+                display: none;
+            }
+            
+            .integration-diagram {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏢 Enterprise Applications Study Guide</h1>
+            <p>Interactive visualization of ERP concepts, processes, and integrations</p>
+        </div>
 
-@media (max-width: 768px) {
-    .process-flow {
-        flex-direction: column;
-    }
-    
-    .process-arrow {
-        transform: rotate(90deg);
-    }
-    
-    .crm-pipeline {
-        flex-direction: column;
-    }
-    
-    .pipeline-stage::after {
-        display: none;
-    }
-    
-    .integration-diagram {
-        flex-direction: column;
-    }
-}
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showSection('overview')">📊 Overview</button>
+            <button class="nav-tab" onclick="showSection('modules')">🔧 ERP Modules</button>
+            <button class="nav-tab" onclick="showSection('data')">💾 Data Types</button>
+            <button class="nav-tab" onclick="showSection('mm')">📦 Materials Mgmt</button>
+            <button class="nav-tab" onclick="showSection('pp')">🏭 Production</button>
+            <button class="nav-tab" onclick="showSection('crm')">🤝 CRM Pipeline</button>
+            <button class="nav-tab" onclick="showSection('implementation')">🚀 Implementation</button>
+            <button class="nav-tab" onclick="showSection('integration')">🔗 Integration</button>
+            <button class="nav-tab" onclick="showSection('memory')">🧠 Memory Aids</button>
+            <button class="nav-tab" onclick="showSection('quiz')">🎯 Quick Quiz</button>
+        </div>
+
+        <!-- Overview Section -->
+        <div id="overview" class="content-section active">
+            <h2>🎯 ERP Overview & Key Statistics</h2>
+            <div class="stats-dashboard">
+                <div class="stat-card">
+                    <div class="stat-number">12</div>
+                    <div>Implementation Phases</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div>Data Types</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">6</div>
+                    <div>Core Modules</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">4</div>
+                    <div>CRM Stages</div>
+                </div>
+            </div>
+            
+            <h3>🌟 Popular ERP Systems in Sri Lanka</h3>
+            <div class="modules-grid">
+                <div class="module-card">
+                    <h3>SAP</h3>
+                    <p>Most commonly used enterprise solution with comprehensive modules</p>
+                </div>
+                <div class="module-card">
+                    <h3>Oracle</h3>
+                    <p>Robust database-driven ERP with strong financial capabilities</p>
+                </div>
+                <div class="module-card">
+                    <h3>IFS</h3>
+                    <p>Scandinavian ERP known for project and maintenance management</p>
+                </div>
+                <div class="module-card">
+                    <h3>MS Dynamics</h3>
+                    <p>Microsoft's business solution with Office integration</p>
+                </div>
+                <div class="module-card">
+                    <h3>Odoo</h3>
+                    <p>Open-source ERP with modular approach and customization</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ERP Modules Section -->
+        <div id="modules" class="content-section">
+            <h2>🔧 Core ERP Modules</h2>
+            <div class="modules-grid">
+                <div class="module-card" style="border-left-color: #e74c3c;">
+                    <h3>📊 Financial Accounting (FI)</h3>
+                    <p><strong>Purpose:</strong> Money matters</p>
+                    <p>General ledger, accounts payable/receivable, asset accounting</p>
+                </div>
+                <div class="module-card" style="border-left-color: #f39c12;">
+                    <h3>👥 Human Resources (HR)</h3>
+                    <p><strong>Purpose:</strong> People power</p>
+                    <p>Employee management, payroll, talent acquisition, performance</p>
+                </div>
+                <div class="module-card" style="border-left-color: #27ae60;">
+                    <h3>📦 Materials Management (MM)</h3>
+                    <p><strong>Purpose:</strong> Buying stuff</p>
+                    <p>Procurement, inventory, vendor management, purchasing</p>
+                </div>
+                <div class="module-card" style="border-left-color: #8e44ad;">
+                    <h3>🏭 Production Planning (PP)</h3>
+                    <p><strong>Purpose:</strong> Making stuff</p>
+                    <p>Manufacturing, BOM, work centers, production orders</p>
+                </div>
+                <div class="module-card" style="border-left-color: #3498db;">
+                    <h3>🛒 Sales & Distribution (SD)</h3>
+                    <p><strong>Purpose:</strong> Selling stuff</p>
+                    <p>Customer orders, pricing, shipping, billing</p>
+                </div>
+                <div class="module-card" style="border-left-color: #e67e22;">
+                    <h3>✅ Quality Management (QM)</h3>
+                    <p><strong>Purpose:</strong> Perfect stuff</p>
+                    <p>Quality planning, inspection, certificates, non-conformance</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Types Section -->
+        <div id="data" class="content-section">
+            <h2>💾 Three Types of Data in ERP</h2>
+            <div class="data-types">
+                <div class="data-card">
+                    <h3>🗃️ Master Data</h3>
+                    <p><strong>Nature:</strong> Static & Shared</p>
+                    <p><strong>Examples:</strong></p>
+                    <ul>
+                        <li>Customer Master</li>
+                        <li>Vendor Master</li>
+                        <li>Material Master</li>
+                        <li>Employee Master</li>
+                        <li>Chart of Accounts</li>
+                    </ul>
+                    <p><strong>Usage:</strong> Reference across processes</p>
+                </div>
+                <div class="data-card">
+                    <h3>📋 Transactional Data</h3>
+                    <p><strong>Nature:</strong> Dynamic & Time-sensitive</p>
+                    <p><strong>Examples:</strong></p>
+                    <ul>
+                        <li>Sales Orders</li>
+                        <li>Purchase Orders</li>
+                        <li>Invoices</li>
+                        <li>Payments</li>
+                        <li>Goods Receipts</li>
+                    </ul>
+                    <p><strong>Usage:</strong> Daily operations</p>
+                </div>
+                <div class="data-card">
+                    <h3>📈 Analytical Data</h3>
+                    <p><strong>Nature:</strong> Derived & Aggregated</p>
+                    <p><strong>Examples:</strong></p>
+                    <ul>
+                        <li>Sales Trends</li>
+                        <li>Customer Insights</li>
+                        <li>KPIs</li>
+                        <li>Profitability Reports</li>
+                        <li>Forecasting Data</li>
+                    </ul>
+                    <p><strong>Usage:</strong> Strategic decisions</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Materials Management Section -->
+        <div id="mm" class="content-section">
+            <h2>📦 Materials Management (MM) Process Flow</h2>
+            <p style="text-align: center; font-size: 1.2em; margin-bottom: 20px;"><strong>Memory Aid:</strong> "Master Requirements Source Purchase Goods Invoice"</p>
+            
+            <div class="process-flow">
+                <div class="process-step">1. Master Data<br><small>Materials, Vendors, Info Records</small></div>
+                <div class="process-arrow">→</div>
+                <div class="process-step">2. Requirements<br><small>What's needed?</small></div>
+                <div class="process-arrow">→</div>
+                <div class="process-step">3. Source Determination<br><small>From whom to buy?</small></div>
+                <div class="process-arrow">→</div>
+                <div class="process-step">4. Purchase Order<br><small>Formal request</small></div>
+                <div class="process-arrow">→</div>
+                <div class="process-step">5. Goods Receipt<br><small>Receive materials</small></div>
+                <div class="process-arrow">→</div>
+                <div class="process-step">6. Invoice Verification<br><small>Verify & pay</small></div>
+            </div>
+
+            <div class="modules-grid">
+                <div class="module-card">
+                    <h3>Purchase Requisition (PR)</h3>
+                    <p>Internal request for materials/services</p>
+                    <p><strong>Methods:</strong> Manual or Automatic (MRP, Maintenance, Production)</p>
+                </div>
+                <div class="module-card">
+                    <h3>Request for Quotation (RFQ)</h3>
+                    <p>Get quotes from multiple vendors</p>
+                    <p><strong>Process:</strong> Create RFQ → Enter quotes → Compare → Select vendor</p>
+                </div>
+                <div class="module-card">
+                    <h3>Purchase Order (PO)</h3>
+                    <p>Formal request to vendor</p>
+                    <p><strong>Types:</strong> Local, Import, Subcontracting, Service, CAPEX, STO</p>
+                </div>
+                <div class="module-card">
+                    <h3>Goods Receipt</h3>
+                    <p>Record received materials</p>
+                    <p><strong>Impact:</strong> Material document (qty) + Accounting document (value)</p>
+                    <p><strong>Movement Type:</strong> 101</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Production Planning Section -->
+        <div id="pp" class="content-section">
+            <h2>🏭 Production Planning (PP) Process</h2>
+            <p style="text-align: center; font-size: 1.2em; margin-bottom: 20px;"><strong>Memory Aid:</strong> "Request Authorization Releases Good Confirmations Received Periodically"</p>
+            
+            <div class="process-flow">
+                <div class="process-step">1. Request<br><small>Planned Order</small></div>
+                <div class="process-arrow">→</div>
+                <div class="process-step">2. Authorize<br><small>Production Order</small></div>
+                <div class="process-arrow">→</div>
+                <div class="process-step">3. Release<br><small>Status Change</small></div>
+                <div class="process-arrow">→</div>
+                <div class="process-step">4. Goods Issue<br><small>Movement 261</small></div>
+                <div class="process-arrow">→</div>
+                <div class="process-step">5. Confirmations<br><small>Track progress</small></div>
+                <div class="process-arrow">→</div>
+                <div class="process-step">6. Goods Receipt<br><small>Movement 101</small></div>
+                <div class="process-arrow">→</div>
+                <div class="process-step">7. Periodic Processing<br><small>Overhead & Settlement</small></div>
+            </div>
+
+            <h3>📋 Production Master Data Components</h3>
+            <div class="modules-grid">
+                <div class="module-card">
+                    <h3>Bill of Materials (BOM)</h3>
+                    <p>Recipe/Components list - What materials are needed</p>
+                </div>
+                <div class="module-card">
+                    <h3>Work Center</h3>
+                    <p>Where production happens - Machines, labor, capacity</p>
+                </div>
+                <div class="module-card">
+                    <h3>Product Routing</h3>
+                    <p>How to make it - Sequence of operations</p>
+                </div>
+                <div class="module-card">
+                    <h3>Material Master</h3>
+                    <p>What to make - Product specifications</p>
+                </div>
+                <div class="module-card">
+                    <h3>Production Resource Tools</h3>
+                    <p>Equipment needed - Tools, fixtures, resources</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CRM Section -->
+        <div id="crm" class="content-section">
+            <h2>🤝 Customer Relationship Management (CRM) Pipeline</h2>
+            <p style="text-align: center; font-size: 1.2em; margin-bottom: 20px;"><strong>Memory Aid:</strong> "Leads Love Opportunities, Quotes Create Customers"</p>
+            
+            <div class="crm-pipeline">
+                <div class="pipeline-stage">
+                    <h3>🎯 Leads</h3>
+                    <p>Potential customers showing interest</p>
+                    <p><small>Website forms, inquiries, social media</small></p>
+                </div>
+                <div class="pipeline-stage">
+                    <h3>💡 Opportunities</h3>
+                    <p>Qualified leads with buying intent</p>
+                    <p><small>BANT qualified (Budget, Authority, Need, Timeline)</small></p>
+                </div>
+                <div class="pipeline-stage">
+                    <h3>📄 Quotations</h3>
+                    <p>Formal pricing documents</p>
+                    <p><small>Products, prices, terms, validity</small></p>
+                </div>
+                <div class="pipeline-stage">
+                    <h3>👥 Customers</h3>
+                    <p>Established business relationships</p>
+                    <p><small>Purchased or contracted</small></p>
+                </div>
+            </div>
+
+            <div class="modules-grid">
+                <div class="module-card">
+                    <h3>Lead Management</h3>
+                    <p><strong>Source:</strong> Website, stores, social media, email</p>
+                    <p><strong>Status:</strong> Not yet qualified</p>
+                </div>
+                <div class="module-card">
+                    <h3>Opportunity Management</h3>
+                    <p><strong>Criteria:</strong> Budget, Authority, Need, Timeline</p>
+                    <p><strong>Activities:</strong> Demos, meetings, proposals</p>
+                </div>
+                <div class="module-card">
+                    <h3>Quote Management</h3>
+                    <p><strong>Includes:</strong> Products, quantities, prices, terms</p>
+                    <p><strong>Features:</strong> Validity period, payment terms</p>
+                </div>
+                <div class="module-card">
+                    <h3>Customer Management</h3>
+                    <p><strong>Data:</strong> Purchase history, preferences, interactions</p>
+                    <p><strong>Integration:</strong> Links to sales and support</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Implementation Section -->
+        <div id="implementation" class="content-section">
+            <h2>🚀 ERP Implementation Lifecycle</h2>
+            <p style="text-align: center; font-size: 1.2em; margin-bottom: 20px;"><strong>Memory Aid:</strong> "Pretty Professionals Really Build Beautiful Projects Correctly"</p>
+            
+            <div class="implementation-timeline">
+                <div class="timeline-item">
+                    <div class="timeline-number">1</div>
+                    <div>
+                        <h3>Pre-sales</h3>
+                        <p>Initial discussions and requirements overview</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-number">2</div>
+                    <div>
+                        <h3>Project Sign-in</h3>
+                        <p>Contract finalization and project kickoff</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-number">3</div>
+                    <div>
+                        <h3>Requirements Gathering</h3>
+                        <p>Fit-Gap Analysis and detailed requirements</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-number">4</div>
+                    <div>
+                        <h3>Business Blueprint (BBP)</h3>
+                        <p>Document all business processes and configurations</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-number">5</div>
+                    <div>
+                        <h3>BBP Signoff</h3>
+                        <p>Stakeholder approval and project approval checkpoint</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-number">6</div>
+                    <div>
+                        <h3>Project Plan</h3>
+                        <p>Detailed timeline, resources, and milestone planning</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-number">7</div>
+                    <div>
+                        <h3>Realization</h3>
+                        <p>System configuration and customization development</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-number">8</div>
+                    <div>
+                        <h3>Unit Testing</h3>
+                        <p>Individual component and functionality testing</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-number">9</div>
+                    <div>
+                        <h3>Integration Testing</h3>
+                        <p>End-to-end testing across all modules and processes</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-number">10</div>
+                    <div>
+                        <h3>User Acceptance Test (UAT)</h3>
+                        <p>Business user validation and final approval</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-number">11</div>
+                    <div>
+                        <h3>Cutover Activities</h3>
+                        <p>Go-live preparation, data migration, final setup</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-number">12</div>
+                    <div>
+                        <h3>Go Live</h3>
+                        <p>System activation and production use</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Integration Section -->
+        <div id="integration" class="content-section">
+            <h2>🔗 ERP Module Integration</h2>
+            <p style="text-align: center; font-size: 1.2em; margin-bottom: 30px;">All modules are interconnected with real-time data flow</p>
+            
+            <div class="integration-diagram">
+                <div class="integration-node" style="background: linear-gradient(145deg, #e74c3c, #c0392b);">FI<br><small>Financial</small></div>
+                <div class="integration-node" style="background: linear-gradient(145deg, #27ae60, #229954);">MM<br><small>Materials</small></div>
+                <div class="integration-node" style="background: linear-gradient(145deg, #8e44ad, #7d3c98);">PP<br><small>Production</small></div>
+                <div class="integration-node" style="background: linear-gradient(145deg, #3498db, #2980b9);">SD<br><small>Sales</small></div>
+                <div class="integration-node" style="background: linear-gradient(145deg, #f39c12, #e67e22);">HR<br><small>Human Res</small></div>
+                <div class="integration-node" style="background: linear-gradient(145deg, #1abc9c, #16a085);">QM<br><small>Quality</small></div>
+            </div>
+
+            <h3>🔄 Key Integration Points</h3>
+            <div class="modules-grid">
+                <div class="module-card">
+                    <h3>MM ↔ FI Integration</h3>
+                    <p><strong>Connection:</strong> Invoice Verification</p>
+                    <p>Purchase orders create financial commitments, goods receipts update material values</p>
+                </div>
+                <div class="module-card">
+                    <h3>MM ↔ PP Integration</h3>
+                    <p><strong>Connection:</strong> Material Requirements</p>
+                    <p>Production orders trigger material procurement, BOM determines requirements</p>
+                </div>
+                <div class="module-card">
+                    <h3>SD ↔ MM Integration</h3>
+                    <p><strong>Connection:</strong> Availability Check</p>
+                    <p>Sales orders check inventory, customer orders may trigger procurement</p>
+                </div>
+                <div class="module-card">
+                    <h3>HR ↔ All Modules</h3>
+                    <p><strong>Connection:</strong> Employee Master</p>
+                    <p>Authorization workflows, cost center assignments, organizational structure</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Memory Aids Section -->
+        <div id="memory" class="content-section">
+            <h2>🧠 Memory Aids & Quick Reference</h2>
+            
+            <div class="memory-aids">
+                <h3>🎯 Process Memory Aids</h3>
+                <div class="memory-aid">
+                    <h4>MM Process</h4>
+                    <p><strong>"My Requirements Source Perfect Goods Immediately"</strong></p>
+                    <p>Master Data → Requirements → Sourcing → Purchase Order → Goods Receipt → Invoice</p>
+                </div>
+                <div class="memory-aid">
+                    <h4>Production Process</h4>
+                    <p><strong>"Request Authorization Releases Good Confirmations Received Periodically"</strong></p>
+                    <p>Request → Authorize → Release → Goods Issue → Confirmations → Receive → Processing</p>
+                </div>
+                <div class="memory-aid">
+                    <h4>CRM Pipeline</h4>
+                    <p><strong>"Leads Love Opportunities, Quotes Create Customers"</strong></p>
+                    <p>Leads → Opportunities → Quotations → Customers</p>
+                </div>
+                <div class="memory-aid">
+                    <h4>Implementation Cycle</h4>
+                    <p><strong>"Pretty Professionals Really Build Beautiful Projects Correctly"</strong></p>
+                    <p>Pre-sales → Project Sign-in → Requirements → Blueprint → BBP Signoff → Project Plan → Realization → Unit Test → Integration Test → UAT → Cutover → Go Live</p>
+                </div>
+            </div>
+
+            <h3>📊 Quick Reference Tables</h3>
+            <div class="modules-grid">
+                <div class="module-card">
+                    <h3>Movement Types</h3>
+                    <p><strong>101:</strong> Goods Receipt (into storage)</p>
+                    <p><strong>261:</strong> Goods Issue (for production)</p>
+                    <p><strong>201:</strong> Goods Issue (cost center)</p>
+                    <p><strong>221:</strong> Return to vendor</p>
+                </div>
+                <div class="module-card">
+                    <h3>Data Classification</h3>
+                    <p><strong>Master:</strong> Static, shared (Customer info)</p>
+                    <p><strong>Transactional:</strong> Dynamic, operational (Orders)</p>
+                    <p><strong>Analytical:</strong> Derived, insights (Reports)</p>
+                </div>
+                <div class="module-card">
+                    <h3>Document Types</h3>
+                    <p><strong>PR:</strong> Purchase Requisition</p>
+                    <p><strong>RFQ:</strong> Request for Quotation</p>
+                    <p><strong>PO:</strong> Purchase Order</p>
+                    <p><strong>GR:</strong> Goods Receipt</p>
+                </div>
+                <div class="module-card">
+                    <h3>ERP Benefits</h3>
+                    <p><strong>Operational:</strong> Efficiency, accuracy</p>
+                    <p><strong>Strategic:</strong> Better decisions, compliance</p>
+                    <p><strong>Financial:</strong> Cost reduction, ROI</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Section -->
+        <div id="quiz" class="content-section">
+            <h2>🎯 Quick Knowledge Check</h2>
+            
+            <div class="quiz-section">
+                <div class="quiz-question">
+                    <h4>Question 1: Which movement type is used for goods receipt into storage?</h4>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="q1" value="a"> a) 201
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q1" value="b"> b) 261
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q1" value="c"> c) 101
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q1" value="d"> d) 221
+                        </label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h4>Question 2: What is the correct sequence in MM process?</h4>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="q2" value="a"> a) PO → PR → GR → IV
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q2" value="b"> b) PR → PO → GR → IV
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q2" value="c"> c) GR → PR → PO → IV
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q2" value="d"> d) IV → GR → PO → PR
+                        </label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h4>Question 3: Which data type is "Customer Master"?</h4>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="q3" value="a"> a) Transactional Data
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q3" value="b"> b) Master Data
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q3" value="c"> c) Analytical Data
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q3" value="d"> d) Configuration Data
+                        </label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h4>Question 4: What connects MM and FI modules?</h4>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="q4" value="a"> a) Purchase Order
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q4" value="b"> b) Goods Receipt
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q4" value="c"> c) Invoice Verification
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q4" value="d"> d) Material Master
+                        </label>
+                    </div>
+                </div>
+
+                <button class="quiz-button" onclick="checkQuizAnswers()">Check Answers</button>
+                
+                <div id="quiz-results" style="display: none; padding: 20px; background: #f8f9fa; border-radius: 10px; margin-top: 20px;">
+                    <h4>Quiz Results:</h4>
+                    <p id="score-display"></p>
+                    <div id="answer-explanations"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        function checkQuizAnswers() {
+            const answers = {
+                q1: 'c', // Movement type 101 for goods receipt
+                q2: 'b', // PR → PO → GR → IV
+                q3: 'b', // Master Data
+                q4: 'c'  // Invoice Verification
+            };
+
+            const explanations = {
+                q1: '101 is the standard movement type for goods receipt into storage.',
+                q2: 'MM process follows: Purchase Requisition → Purchase Order → Goods Receipt → Invoice Verification',
+                q3: 'Customer Master is Master Data - static information shared across processes.',
+                q4: 'Invoice Verification creates the link between Materials Management and Financial Accounting.'
+            };
+
+            let score = 0;
+            let totalQuestions = Object.keys(answers).length;
+            let resultHTML = '';
+
+            // Clear previous results
+            const options = document.querySelectorAll('.quiz-option');
+            options.forEach(option => {
+                option.classList.remove('correct', 'incorrect');
+            });
+
+            for (let questionId in answers) {
+                const selectedAnswer = document.querySelector(`input[name="${questionId}"]:checked`);
+                const correctAnswer = answers[questionId];
+                
+                if (selectedAnswer) {
+                    const isCorrect = selectedAnswer.value === correctAnswer;
+                    if (isCorrect) {
+                        score++;
+                        selectedAnswer.parentElement.classList.add('correct');
+                    } else {
+                        selectedAnswer.parentElement.classList.add('incorrect');
+                        // Also highlight the correct answer
+                        const correctOption = document.querySelector(`input[name="${questionId}"][value="${correctAnswer}"]`);
+                        if (correctOption) {
+                            correctOption.parentElement.classList.add('correct');
+                        }
+                    }
+                } else {
+                    // If no answer selected, just highlight the correct one
+                    const correctOption = document.querySelector(`input[name="${questionId}"][value="${correctAnswer}"]`);
+                    if (correctOption) {
+                        correctOption.parentElement.classList.add('correct');
+                    }
+                }
+                
+                resultHTML += `<p><strong>Question ${questionId.charAt(1)}:</strong> ${explanations[questionId]}</p>`;
+            }
+
+            document.getElementById('score-display').innerHTML = `Your Score: ${score}/${totalQuestions} (${Math.round(score/totalQuestions*100)}%)`;
+            document.getElementById('answer-explanations').innerHTML = resultHTML;
+            document.getElementById('quiz-results').style.display = 'block';
+        }
+
+        // Add interactivity when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const processSteps = document.querySelectorAll('.process-step');
+            const dataCards = document.querySelectorAll('.data-card');
+            const integrationNodes = document.querySelectorAll('.integration-node');
+
+            // Add click animations
+            processSteps.forEach(step => {
+                step.addEventListener('click', function() {
+                    this.style.transform = 'scale(1.1) rotateY(10deg)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1.05)';
+                    }, 200);
+                });
+            });
+
+            dataCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    this.style.transform = 'translateY(-15px) rotate(5deg) scale(1.05)';
+                    setTimeout(() => {
+                        this.style.transform = 'translateY(-10px) rotate(2deg)';
+                    }, 300);
+                });
+            });
+
+            integrationNodes.forEach(node => {
+                node.addEventListener('click', function() {
+                    this.style.transform = 'scale(1.3) rotate(360deg)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1.2)';
+                    }, 500);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
